@@ -1,0 +1,25 @@
+---
+
+# The host that would be used to do some delegated tasks and local backup.
+# This is here for Ansible Controller compability since the roles probably
+# need passwordless access to localhost, and I don't know how to do it inside an EE.
+fortigate_backup_bastion: "localhost"
+fortigate_backup_files_owner: ansible
+fortigate_backup_files_group: ansible
+# The directory where the zip files of the configuration will be saved.
+fortigate_backup_files_path: /home/ansible/backups/fortigate
+# Various files retrieval configurations. Currently only support
+# by mail via SMTP.
+fortigate_backup_files_retrieval:
+  email:
+    enabled: true
+    host: smtp.google.com
+    port: 587
+    username: ""
+    password: ""
+    secure: starttls
+    from: "Ansible Bot"
+    subject: "Fortigate Configuration Backup"
+    to: []
+
+fortigate_backup_vdom: root

@@ -1,0 +1,12 @@
+---
+
+- name: Make sure backup dir exist.
+  ansible.builtin.import_tasks: 00-pre-tasks.yaml
+
+- name: Backup Fortigate configuration.
+  ansible.builtin.import_tasks: 01-backup-configuration.yaml
+
+- name: Retrieve backup configuration files via email.
+  ansible.builtin.import_tasks: 99-retrieve.yaml
+  when:
+    - fortigate_backup_files_retrieval.email.enabled

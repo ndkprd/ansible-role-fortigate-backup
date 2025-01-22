@@ -1,0 +1,31 @@
+---
+
+- name: Backup Fortigate configuration.
+  connection: httpapi
+  fortinet.fortios.fortios_monitor:
+    selector: "backup.system.config"
+    vdom: "{{ fortigate_backup_vdom }}"
+    params:
+      scope: "global"
+  register: backup_result
+
+- name: Save backup config.
+  ansible.builtin.copy:
+    content: "{{ backup_result.meta.raw }}"
+    dest: "/tmp/fortigate_backup/{{ _timestamp }}/{{ _timestamp }}_{{ inventory_hostname }}.backup.conf"
+    owner: "{{ fortigate_backup_files_owner }}"
+    group: "{{ fortigate_backup_files_group }}"
+    mode: "644"
+  delegate_to: "{{ fortigate_backup_bastion }}"
+
+- name: Zip all the files.
+  community.general.archive:
+    path: "/tmp/fortigate_backup/{{ _timestamp }}/*.conf"
+    dest: "{{ fortigate_backup_files_path }}/{{ _timestamp }}_ASDP_FGT_BACKUP.zip"
+    format: zip
+    owner: "{{ fortigate_backup_files_owner }}"
+    group: "{{ fortigate_backup_files_group }}"
+    mode: "644"
+    remove: true
+  delegate_to: "{{ fortigate_backup_bastion }}"
+  run_once: true

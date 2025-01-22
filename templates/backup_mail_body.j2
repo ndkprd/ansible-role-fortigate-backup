@@ -1,0 +1,20 @@
+
+Hi,
+
+The Fortigate configuration backup has been successfully completed for the following device(s):
+
+{% for item in hostvars | dict2items | rejectattr('key', 'equalto', 'bastion') | selectattr('value', 'defined') | selectattr('value.backup_result', 'defined') | list %}
+- {{ item.key }}
+{% endfor %}
+
+And failed to backup the following device(s):
+{% for item in hostvars | dict2items | rejectattr('key', 'equalto', 'bastion') |selectattr('value', 'defined') | selectattr('value.backup_result', 'undefined') | list %}
+- {{ item.key }}
+{% else %}
+- None
+{% endfor %}
+
+Please find the files inside of the attached zip file.
+
+Best regards,
+ASDP Ansible Bot

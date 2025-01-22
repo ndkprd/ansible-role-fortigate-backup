@@ -1,0 +1,18 @@
+---
+
+- name: Send the backup files by email.
+  vars:
+    mail: "{{ fortigate_backup_files_retrieval.email }}"
+  community.general.mail:
+    host: "{{ mail.host }}"
+    port: "{{ mail.port }}"
+    username: "{{ mail.username | default(omit) }}"
+    password: "{{ mail.password | default(omit) }}"
+    secure: "{{ mail.secure | default(omit) }}"
+    from: "{{ mail.from }}"
+    subject: "{{ mail.subject }}"
+    to: "{{ mail.to }}"
+    body: "{{ lookup('ansible.builtin.template', 'backup_mail_body.j2') }}"
+    attach: "{{ fortigate_backup_files_path }}/{{ _timestamp }}_ASDP_FGT_BACKUP.zip"
+  delegate_to: "{{ fortigate_backup_bastion }}"
+  run_once: true

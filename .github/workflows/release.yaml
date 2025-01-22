@@ -1,0 +1,13 @@
+---
+
+name: Release to Ansible Galaxy.
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release-to-galaxy:
+    uses: ndkprd/actions/.github/workflows/ansible-release-to-galaxy.yaml@main
+    secrets:
+      galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
