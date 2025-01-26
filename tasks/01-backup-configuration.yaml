@@ -8,6 +8,8 @@
     params:
       scope: "global"
   register: backup_result
+  retries: "{{ fortigate_backup_retries | default(omit) }}"
+  delay: "{{ fortigate_backup_retries_delay | default(omit) }}"
 
 - name: Save backup config.
   ansible.builtin.copy:

@@ -21,5 +21,4 @@ fortigate_backup_files_retrieval:
     from: "Ansible Bot"
     subject: "Fortigate Configuration Backup"
     to: []
-
 fortigate_backup_vdom: root

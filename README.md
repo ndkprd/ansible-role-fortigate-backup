@@ -41,10 +41,15 @@ ansible_httpapi_port=443
   gather_facts: false
   vars:
     fortigate_backup_vdom: root
+    # The number of times to retry the backup process, default to none/omit.
+    fortigate_backup_retries: 3
+    # the files owner and group.
     fortigate_backup_files_owner: ansible
     fortigate_backup_files_group: ansible
+    # the path where the zip files of the configuration will be saved.
     fortigate_backup_files_path: /home/ansible/backups/fortigate
     fortigate_backup_files_retrieval:
+      # Set enabled to true if you want to retrieve the files via email.
       email:
         enabled: true
         host: smtp.example.com
@@ -52,7 +57,7 @@ ansible_httpapi_port=443
         username: me@example.com
         password: super-secure-password
         secure: startls
-        from: "ansible@example.om (EXAMPLE Ansible Bot)"
+        from: "ansible@example.om (EXAMPLE Inc. Ansible Bot)"
         subject: "Fortigate Configuration Backup"
         to:
           - me@example.com
