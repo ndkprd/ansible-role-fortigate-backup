@@ -2,11 +2,13 @@
 
 
 - name: Get timestamp from control node.
+  connection: local
   ansible.builtin.set_fact:
     _timestamp: "{{ lookup('ansible.builtin.pipe', 'date +%Y%m%d') }}"
   delegate_to: "{{ fortigate_backup_bastion }}"
 
 - name: Make sure backup dir exist.
+  connection: local
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory

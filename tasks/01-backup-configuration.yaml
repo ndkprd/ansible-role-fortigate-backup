@@ -12,6 +12,7 @@
   delay: "{{ fortigate_backup_retries_delay | default(omit) }}"
 
 - name: Save backup config.
+  connection: local
   ansible.builtin.copy:
     content: "{{ backup_result.meta.raw }}"
     dest: "/tmp/fortigate_backup/{{ _timestamp }}/{{ _timestamp }}_{{ inventory_hostname }}.backup.conf"
@@ -21,6 +22,7 @@
   delegate_to: "{{ fortigate_backup_bastion }}"
 
 - name: Zip all the files.
+  connection: local
   community.general.archive:
     path: "/tmp/fortigate_backup/{{ _timestamp }}/*.conf"
     dest: "{{ fortigate_backup_files_path }}/{{ _timestamp }}_ASDP_FGT_BACKUP.zip"
